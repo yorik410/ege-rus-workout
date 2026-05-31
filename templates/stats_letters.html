@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Статистика — Буквы</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #f2f2f2;
+}
+</style>
+</head>
+<body>
+
+<a href="/letters" class="back">← Назад</a>
+
+<h1>Статистика (вставка букв)</h1>
+
+<h2>🔥 Топ ошибок</h2>
+<table>
+    <tr>
+        <th>Слово</th>
+        <th>Ошибок</th>
+        <th>Правильно</th>
+        <th>Вес</th>
+    </tr>
+
+    {% for w in top_wrong %}
+    <tr>
+        <td>{{ w.masked }}</td>
+        <td>{{ w.wrong }}</td>
+        <td>{{ w.correct }}</td>
+        <td>{{ w.weight }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>⚖️ Самые “тяжёлые” слова</h2>
+<table>
+    <tr>
+        <th>Слово</th>
+        <th>Вес</th>
+        <th>Ошибок</th>
+        <th>Правильно</th>
+    </tr>
+
+    {% for w in top_weight %}
+    <tr>
+        <td>{{ w.masked }}</td>
+        <td>{{ w.weight }}</td>
+        <td>{{ w.wrong }}</td>
+        <td>{{ w.correct }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

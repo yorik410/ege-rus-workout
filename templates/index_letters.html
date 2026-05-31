@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Пропущенные буквы</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+input {
+    padding: 10px;
+    font-size: 18px;
+    width: 300px;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 18px;
+    margin-left: 10px;
+}
+</style>
+<script>
+    window.onload = function () {
+        const input = document.querySelector("input[name='answer']");
+        if (input) input.focus();
+    }
+</script>
+</head>
+<body>
+
+<a href="/" class="back">← Назад</a>
+
+<a href="/letters/stats" style="
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+">
+    📊 Статистика
+</a>
+
+<a href="/letters/edit/{{ word }}" style="
+    position: absolute;
+    bottom:20px;
+    right:50px;
+    padding:10px 15px;
+    background:#ff9800;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+">
+    ✏️ Исправить задание
+</a>
+
+<h2>Вставьте пропущенную букву</h2>
+
+<h1>{{ word }}</h1>
+
+<form method="POST">
+    <input name="answer" placeholder="буква / слово" autofocus>
+    <button type="submit">Ответить</button>
+</form>
+
+{% if result is not none %}
+    {% if result.correct %}
+        <h2 style="color: green;">✔ Правильно</h2>
+    {% else %}
+        <h2 style="color: red;">✘ Неправильно</h2>
+        <p>Правильный ответ: <b>{{ result.answer }}</b></p>
+    {% endif %}
+{% endif %}
+
+<hr>
+
+<p>
+    Правильных ответов: {{ accuracy }}%
+</p>
+<p>
+    Просмотрено слов: {{ seen }} из {{ words_count }}
+</p>
+<p>
+    Всего попыток: {{ total_correct + total_wrong }}
+</p>
+<p>
+    Правильных / Неправильных: {{ total_correct }} / {{ total_wrong }}
+</p>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Ударения</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.word {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 40px 0;
+}
+
+button.letter {
+    font-size: 40px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.result {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.side {
+    width: 210px;
+    text-align: left;
+    position: sticky;
+    top: 20px;
+    margin-top: -30px;
+}
+
+.main {
+    margin-left: -250px;
+    margin-top: 20px;
+    flex: 1;
+}
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+</style>
+</head>
+<body>
+<a href="/" class="back">← Назад</a>
+
+<div class="container">
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
+    <div class="side">
+        <h3>🎯 Цели точности</h3>
+
+        <table>
+            <tr>
+                <th>Цель</th>
+                <th>Нужно</th>
+            </tr>
+
+            {% for p in progress %}
+            <tr>
+                <td>{{ p.target }}%</td>
+                <td>{{ p.need }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <hr>
+    </div>
+
+    <div class="main">
+        <a href="/accent/stats" style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        ">
+            📊 Статистика
+        </a>
+
+        <h1>Поставь ударение</h1>
+
+        {% if result %}
+        <div class="result">
+            {% if result.correct %}
+                ✅ Правильно!
+            {% else %}
+                ❌ Неправильно
+            {% endif %}
+
+            <br><br>
+
+            Правильный вариант:
+            <b>{{ result.answer }}</b>
+        </div>
+        {% endif %}
+
+        <form method="post">
+            <div class="word">
+                {% for ch in word %}
+                    <button
+                        class="letter"
+                        name="letter"
+                        value="{{ loop.index0 }}"
+                    >
+                        {{ ch }}
+                    </button>
+                {% endfor %}
+            </div>
+            {% if note %}
+                <div style="font-size:20px; color:#666; margin-bottom:20px;">
+                    {{ note }}
+                </div>
+            {% endif %}
+        </form>
+
+        <p>Нажми на букву, которая должна быть под ударением.</p>
+
+        <a href="accent/exclude/{{ word }}"
+           style="
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background: #c0392b;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+           ">
+           🗑 Убрать слово
+        </a>
+
+        <p>
+            Правильных ответов:
+            {{ accuracy }}%
+        </p>
+        <p>
+            Просмотрено слов: {{ seen }} из {{ words_count }}
+        </p>
+        <p>
+            Всего попыток: {{ total_correct + total_wrong }}
+        </p>
+        <p>
+            Правильных / Неправильных: {{ total_correct }} / {{ total_wrong }}
+        </p>
+    </div>
+</div>
+</body>
+</html>

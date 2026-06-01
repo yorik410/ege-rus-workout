@@ -55,14 +55,20 @@ def load_dictionary():
             note = ""
 
             m = re.match(r"^(.*?)\s*\((.*)\)$", word_raw)
+            notes = []
             if m:
                 word = m.group(1).strip().replace("ё", "е")
-                note = m.group(2).strip()
+                notes.append(m.group(2).strip())
 
                 stressed = re.sub(r"\s*\(.*\)$", "", stressed_raw).strip()
             else:
                 word = word_raw.replace("ё", "е")
                 stressed = stressed_raw
+            if ")" in word:
+                note2, word = word.split(")")
+                notes.append(note2.strip("(").strip())
+                word = word.strip()
+            note = ", ".join(notes)
 
             stress_index = None
 
@@ -104,7 +110,7 @@ def get_weights():
         stat = STATS.get(word["word"])
 
         if not stat:
-            weights.append(1)
+            weights.append(5)
             continue
 
         weights.append(max(1, 1 + stat["wrong"] * 4 - stat["correct"]))

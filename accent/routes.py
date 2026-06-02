@@ -126,7 +126,7 @@ def needed_correct(target, correct, wrong):
     return max(0, int(x))
 
 
-targets = [0.8, 0.9, 0.95, 0.98, 0.99]
+targets = [0.9, 0.95, 0.97, 0.98, 0.99]
 
 
 @bp.route("/accent", methods=["GET", "POST"])
